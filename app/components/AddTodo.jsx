@@ -16,7 +16,7 @@ onSubmit: function (e) {
 render: function () {
 
   return(
-    <div>
+    <div className = "container__footer">
       <form ref="form" onSubmit={this.onSubmit} className="countdown-form">
         <input type="text" ref="TodoInput" placeholder="What do you need to do"/>
         <button className="button expanded">Add Todo</button>
