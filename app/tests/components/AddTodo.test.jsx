@@ -14,7 +14,7 @@ describe('AddTodo',()=>{
   it('should dispatch ADD_TODO when valid todo text',()=>{
     var addTodotext = 'Check mail';
     var action = {
-      Type:'ADD_TODO',
+      type:'ADD_TODO',
       text:addTodotext
     };
    var spy = expect.createSpy();
