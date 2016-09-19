@@ -12,9 +12,7 @@ store.subscribe(()=>{
   console.log('new State', store.getState());
 });
 
-store.dispatch(actions.addTodo('Clean the yeard'));
-store.dispatch(actions.setSearchText('yeard'));
-store.dispatch(actions.toggleShowCompleted());
+
 
 //Load foundation
 $(document).foundation();
