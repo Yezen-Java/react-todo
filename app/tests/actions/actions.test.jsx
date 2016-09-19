@@ -5,10 +5,10 @@ describe('Actions',()=>{
   it('should generate search test action',()=>{
     var action = {
       type: 'SET_SEARCH_TEXT',
-      setSearchText: 'some text'
+      searchText: 'some text'
     };
 
-    var res = actions.setSearchText(action.setSearchText);
+    var res = actions.setSearchText(action.searchText);
 
     expect(res).toEqual(action);
 
