@@ -10,7 +10,7 @@ onSubmit: function (e) {
   var AddTodoInput = this.refs.TodoInput.value;
   if(AddTodoInput.length >0){
     this.refs.TodoInput.value = '';
-    dispatch(actions.addTodo(AddTodoInput));
+    dispatch(actions.startAddTodo(AddTodoInput));
   }else{
      this.refs.TodoInput.focus();
   }
