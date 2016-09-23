@@ -1,17 +1,17 @@
 import firebase from 'firebase';
 
-try{
+try {
   var config = {
-      apiKey: "AIzaSyCBs_Gz5sOMqUfH3zje7hKpjDKTtSc6jBI",
-      authDomain: "yezen-todo-app.firebaseapp.com",
-      databaseURL: "https://yezen-todo-app.firebaseio.com",
-      storageBucket: "yezen-todo-app.appspot.com",
-      messagingSenderId: "30886655326"
-    };
-    firebase.initializeApp(config);
-}catch(e){
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DATABASE_URL,
+    storageBucket: process.env.STORAGE_BUCKET,
+  };
 
-};
+  firebase.initializeApp(config);
+} catch (e) {
+
+}
 
 export var firebaseRef = firebase.database().ref();
 export default firebase;

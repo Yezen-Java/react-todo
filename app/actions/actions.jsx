@@ -1,67 +1,66 @@
 import moment from 'moment';
-import firebase,{firebaseRef} from 'app/firebase';
 
-export var setSearchText = (searchText)=>{
-  return{
+import firebase, {firebaseRef} from 'app/firebase/';
+
+export var setSearchText = (searchText) => {
+  return {
     type: 'SET_SEARCH_TEXT',
     searchText
-  }
-};
-
-export var toggleShowCompleted = ()=>{
-  return {
-    type:'TOGGLE_SHOW_COMPLETED'
   };
 };
 
-export var addTodo = (todo)=>{
+export var toggleShowCompleted = () => {
   return {
-    type:'ADD_TODO',
+    type: 'TOGGLE_SHOW_COMPLETED'
+  };
+};
+
+export var addTodo = (todo) => {
+  return {
+    type: 'ADD_TODO',
     todo
   };
-
 };
 
-export var startAddTodo = (text) =>{
-  return (dispatch,getState)=>{
+export var startAddTodo = (text) => {
+  return (dispatch, getState) => {
     var todo = {
       text,
-      completed:false,
+      completed: false,
       createdAt: moment().unix(),
-      completedAt : null
+      completedAt: null
     };
     var todoRef = firebaseRef.child('todos').push(todo);
 
-  return todoRef.then(()=>{
+    return todoRef.then(() => {
       dispatch(addTodo({
         ...todo,
-        id:todoRef.key
+        id: todoRef.key
       }));
     });
   };
 };
 
-export var addTodos = (todos)=>{
-  return{
-    type:'ADD_TODOS',
+export var addTodos = (todos) => {
+  return {
+    type: 'ADD_TODOS',
     todos
   };
 };
 
-export var startAddTodos = ()=>{
-  return (dispatch,getState)=>{
+export var startAddTodos = () => {
+  return (dispatch, getState) => {
     var todosRef = firebaseRef.child('todos');
 
-    return todosRef.once('value').then((snapshot)=>{
+    return todosRef.once('value').then((snapshot) => {
       var todos = snapshot.val() || {};
       var parsedTodos = [];
 
-      Object.keys(todos).forEach((todoId)=>{
+      Object.keys(todos).forEach((todoId) => {
         parsedTodos.push({
-          id:todoId,
+          id: todoId,
           ...todos[todoId]
         });
-
       });
 
       dispatch(addTodos(parsedTodos));
@@ -69,25 +68,24 @@ export var startAddTodos = ()=>{
   };
 };
 
-export var updateTodo = (id,updates)=>{
+export var updateTodo = (id, updates) => {
   return {
-    type:'UPDATE_TODO',
+    type: 'UPDATE_TODO',
     id,
     updates
   };
 };
 
-export var startToggleTodo = (id,completed)=>{
-
-  return (dispatch,getState)=>{
-    var todoRed = firebaseRef.child(`todos/${id}`);
+export var startToggleTodo = (id, completed) => {
+  return (dispatch, getState) => {
+    var todoRef = firebaseRef.child(`todos/${id}`);
     var updates = {
       completed,
-      completedAt: completed ? moment().unix(): null
+      completedAt: completed ? moment().unix() : null
     };
 
-    return todoRed.update(updates).then(()=>{
-      dispatch(updateTodo(id,updates));
+    return todoRef.update(updates).then(() => {
+      dispatch(updateTodo(id, updates));
     });
-  }
+  };
 };
