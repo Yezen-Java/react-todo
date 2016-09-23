@@ -105,14 +105,19 @@ describe('Actions',()=>{
     var testTodoRef;
 
     beforeEach((done)=>{
-      testTodoRef = firebaseRef.child('todos').push();
-      testTodoRef.set({
-        text:'something to do',
-        completed: false,
-        createdAt:22323232
+      var todosRef = firebaseRef.child('todos');
+      todosRef.remove().then(()=>{
+        testTodoRef = firebaseRef.child('todos').push();
+
+        return testTodoRef.set({
+          text:'something to do',
+          completed: false,
+          createdAt:22323232
+        });
       }).then(()=>{
-        done();
-      });
+            done();
+          }).catch(done);
+
 
     });
 
@@ -133,17 +138,31 @@ describe('Actions',()=>{
           id:testTodoRef
         });
 
-        epect(mockActions[0].updates).toInclude({
+        expect(mockActions[0].updates).toInclude({
           completed:true
         });
 
-        epect(mockActions[0].updates.completedAt).toExist();
+        expect(mockActions[0].updates.completedAt).toExist();
 
         done();
 
       },done);
+      done();
 
+    });
+
+    it('should dispatch todos from firebase database',(done)=>{
+      const store = createMockStore({});
+      const action = actions.startAddTodos();
+      store.dispatch(action).then(()=>{
+        const mackActions = store.getActions();
+        expect(mackActions[0].type).toEqual('ADD_TODOS');
+        expect(mackActions[0].todos.length).toEqual(1);
+        expect(mackActions[0].todos[0]).toEqual('something to do');
+        done();
+      },done);
       done();
     });
+
   });
 });
